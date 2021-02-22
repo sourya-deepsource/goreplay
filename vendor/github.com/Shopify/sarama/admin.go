@@ -549,7 +549,11 @@ func (ca *clusterAdmin) DeleteRecords(topic string, partitionOffsets map[int32]i
 		if err != nil {
 			return err
 		}
-		partitionPerBroker[broker] = append(partitionPerBroker[broker], partition)
+		if _, ok := partitionPerBroker[broker]; ok {
+			partitionPerBroker[broker] = append(partitionPerBroker[broker], partition)
+		} else {
+			partitionPerBroker[broker] = []int32{partition}
+		}
 	}
 	errs := make([]error, 0)
 	for broker, partitions := range partitionPerBroker {
