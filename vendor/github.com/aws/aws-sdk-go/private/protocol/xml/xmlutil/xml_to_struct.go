@@ -123,7 +123,9 @@ func StructToXML(e *xml.Encoder, node *XMLNode, sorted bool) error {
 	attrs := node.Attr
 	if sorted {
 		sortedAttrs := make([]xml.Attr, len(attrs))
-		sortedAttrs = append(sortedAttrs, node.Attr...)
+		for _, k := range node.Attr {
+			sortedAttrs = append(sortedAttrs, k)
+		}
 		sort.Sort(xmlAttrSlice(sortedAttrs))
 		attrs = sortedAttrs
 	}
