@@ -93,7 +93,7 @@ func (p *maxSlicePool) Get(ctx aws.Context) (*[]byte, error) {
 			p.mtx.RUnlock()
 
 			select {
-			case <-c:
+			case _ = <-c:
 				p.mtx.RLock()
 			case <-ctx.Done():
 				return nil, ctx.Err()
